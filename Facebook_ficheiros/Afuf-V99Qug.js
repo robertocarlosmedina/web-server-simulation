@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["xrxTMQY"]); }
+
+__d("jsExtraRouteBuilder",["jsRouteBuilder","unrecoverableViolation"],(function(a,b,c,d,e,f){"use strict";e.exports=a;function a(a,c,d,e){var f=b("jsRouteBuilder")(a,c,e),g=d.reduce(function(a,d){a===void 0&&(a={});typeof d==="string"&&(a[d]=b("jsRouteBuilder")(d,c,e,null,!0).buildURL);return a},{});return{buildExtraURL:function(a,c){if(typeof a!=="string"||g[a]==null)throw b("unrecoverableViolation")("Route builder for extra path does not exist","comet_infra");return g[a](c)},buildURL:function(a){return f.buildURL(a)}}}}),null);
