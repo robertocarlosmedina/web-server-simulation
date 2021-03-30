@@ -39,10 +39,10 @@ class Get():
                 for file in self.files:
                     thread = th(connectionSocket, file)
                     thread.start()
-                connectionSocket.send("HTTP/1.1 200 Ok\r\n\r\n".encode())
+                connectionSocket.send("HTTP/1.1 200 Ok\r\n".encode())
                 
             except IOError:
-                connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
+                connectionSocket.send("HTTP/1.1 404 Not Found\r\n".encode())
                 connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode())
                 connectionSocket.close()
 
