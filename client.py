@@ -31,8 +31,8 @@ Accept-Encoding: gzip, deflate
 Connection: keep-alive
 Referer: http://{serverName}:{serverPort}/{aux}
 Upgrade-Insecure-Requests: {count}'''.encode())
-            modifiedSentence = clientSocket.recv(1024)
-            print('From Server: ', modifiedSentence.decode())
+            modifiedSentence = clientSocket.recv(1024).decode
+            print('From Server: ', modifiedSentence)
             clientSocket.close()
             count += 1
         except OSError:
