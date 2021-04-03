@@ -1,6 +1,7 @@
 from socket import *
 from threading import Thread
 
+
 class th(Thread):
     def __init__(self, connectionSocket, f, control):
         Thread.__init__(self)
@@ -12,7 +13,7 @@ class th(Thread):
         self.connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
         for i in range(0, len(self.outputdata)):
             self.connectionSocket.send(self.outputdata[i].encode())
-        self.connectionSocket.send("\r\n".encode())
+        # self.connectionSocket.send("\r\n".encode())
         if self.control[0] == self.control[1]:
             self.connectionSocket.close()
 
@@ -48,7 +49,7 @@ class Get():
                         i = 0
                     else:
                         i += 1
-                connectionSocket.send("HTTP/1.1 200 Ok\r\n".encode())
+                # connectionSocket.send("HTTP/1.1 200 Ok\r\n".encode())
                 
             except IOError:
                 connectionSocket.send("HTTP/1.1 404 Not Found\r\n".encode())

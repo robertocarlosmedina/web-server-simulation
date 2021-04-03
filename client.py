@@ -1,5 +1,5 @@
 from socket import *
-import os
+import requests
 
 serverName = 'localhost'
 serverPort = 80
@@ -31,8 +31,8 @@ Accept-Encoding: gzip, deflate
 Connection: keep-alive
 Referer: http://{serverName}:{serverPort}/{aux}
 Upgrade-Insecure-Requests: {count}'''.encode())
-            modifiedSentence = clientSocket.recv(1024).decode
-            print('From Server: ', modifiedSentence)
+            modifiedSentence = clientSocket.recv(1024).decode()
+            print('From Server: ', modifiedSentence[:1000])
             clientSocket.close()
             count += 1
         except OSError:
