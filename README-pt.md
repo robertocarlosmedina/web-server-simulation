@@ -8,43 +8,43 @@ a funcionalidade de um servidor web.
 
 ## Dependências / bibliotecas usam:
 As bibliotecas que utilizo são as seguintes:
-`` `shell
-    soquete de importação
-    pedido de importação
-    importar tópico
-`` `
+```shell
+    import socket
+    import request
+    import Thread
+```
 ## Executando e depurando
 ### O servidor web
 Para depurar / executar o servidor web, siga as etapas:
 #### 1º - execute o script do servidor.
-`` `shell
+```shell
     python3 webserver.py
-`` `
+```
 A saída será assim:
-`` `shell
-Porta 3000: tentando conectar.
-Porta 3000: já conectada.
+```shell
+Port 3000: trying to connect.
+Port 3000: already connected.
 
-O servidor está em estado ativo.
-`` `
+The server is under state active.
+```
 #### 2º - Vá ao navegador e acesse os sites que estão disponíveis no servidor.
 Exemplos:
-    - [http: // localhost: 3000 / Facebook.html] ()
-    - [http: // localhost: 3000 / Google.html] ()
-    - [http: // localhost: 3000 / ArqRedes.html] ()
+    - [http://localhost:3000/Facebook.html] ()
+    - [http://localhost:3000/Google.html] ()
+    - [http://localhost:3000/ArqRedes.html] ()
 
 ### O cliente
 Para conectar o servidor como um cliente, você deve executar o script do cliente:
-`` `shell
+```shell
     python3 client.py
-`` `
+```
 a saída será um terminal onde é possível executar dois comandos.
 #### Os comandos
 * Para exibir o código de resposta, use:
-`` `shell
-    TCP / Servidor -> localhost 3000 -h ArqRedes.html
-`` `
+```shell
+    TCP/Server -> localhost 3000 -h ArqRedes.html
+```
 * Para exibir o conteúdo do arquivo html:
-`` `shell
-    TCP / Servidor -> localhost 3000 -t ArqRedes.html 
-`` `
+```shell
+    TCP/Server -> localhost 3000 -t ArqRedes.html 
+```
