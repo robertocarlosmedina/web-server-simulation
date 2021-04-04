@@ -10,17 +10,13 @@ the functionality of a web server.
 The libraries that i use are the following one's:
 ```shell
     import socket
-```
-```shell
     import request
-```
-```shell
     import Thread
 ```
 ## Running & Debugging
 ### The Web Server
 To debug/run the web server, follow the steps:
-* 1º - run the server script.
+#### 1º - run the server script.
 ```shell
     python3 webserver.py
 ```
@@ -31,7 +27,7 @@ Port 3000: already connected.
 
 The server is under state active.
 ```
-* 2º - Go to the browser and access the sites that are available in the server.
+#### 2º - Go to the browser and access the sites that are available in the server.
 Examples:
     - [http://localhost:3000/Facebook.html]()
     - [http://localhost:3000/Google.html]()
