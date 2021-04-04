@@ -1,10 +1,10 @@
 from socket import *
 from threading import Thread
 
-
+# Class thread that is allow multiple file resquest at the same time
 class th(Thread):
     def __init__(self, connectionSocket, f, control):
-        Thread.__init__(self)
+        Thread.__init__(self) 
         self.outputdata = f.read()
         self.connectionSocket = connectionSocket
         self.control = control
@@ -14,17 +14,19 @@ class th(Thread):
         for i in range(0, len(self.outputdata)):
             self.connectionSocket.send(self.outputdata[i].encode())
         # self.connectionSocket.send("\r\n".encode())
-        if self.control[0] == self.control[1]:
-            self.connectionSocket.close()
+        if self.control[0] == self.control[1]: # to control if this is the last thread to close all the socket connections
+                                               # Allowing to prevent an error
+            self.connectionSocket.close() 
 
 class Get():
     def __init__(self, port):
         self.serverPort = port
-        self.files = []
+        self.files = [] # array to store all the web request files
 
     def run(self):
         self.serverSocket = socket(AF_INET, SOCK_STREAM)
-        self.serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        self.serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) ## I the port is in use this instruction will and
+                                                                  # the process in the port to make it able to be use
         self.serverSocket.bind(("localhost", self.serverPort))
         self.serverSocket.listen(1)
         
@@ -42,6 +44,8 @@ class Get():
                 self.files.append(f)
                 i = 0
                 maux = len(self.files)-1
+
+                # To run multiple file content's on the same time, they are in threads
                 for file in self.files:
                     thread = th(connectionSocket, file, (i, maux))
                     thread.start()
@@ -57,18 +61,20 @@ class Get():
                 connectionSocket.close()
                 # self.serverSocket.close()
 
+# Some port that could be use to run the server
+# But the server will take just one, the first one, to all the connections
 all_ports=[3000, 3001, 3002, 3003]
 port = 0
-
 while True:
     stop = True
+
+    ## this exeption is to prevent the end of the program is the port is already in use
     try:
         print(f'Port {all_ports[port]}: trying to connect.')
         get = Get(all_ports[port])
         get.run()
     except OSError:
         stop = False
-
         print(f'Port {all_ports[port]}: is unavailable now.')
 
     if stop:
