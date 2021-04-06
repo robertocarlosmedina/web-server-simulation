@@ -10,7 +10,6 @@ class th(Thread):
         self.control = control
 
     def run(self):
-        self.connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
         for i in range(0, len(self.outputdata)):
             self.connectionSocket.send(self.outputdata[i].encode())
         # self.connectionSocket.send("\r\n".encode())
@@ -27,7 +26,7 @@ class Get():
         self.serverSocket = socket(AF_INET, SOCK_STREAM)
         self.serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) ## I the port is in use this instruction will and
                                                                   # the process in the port to make it able to be use
-        self.serverSocket.bind(("localhost", self.serverPort))
+        self.serverSocket.bind(("192.168.1.194", self.serverPort))
         self.serverSocket.listen(1)
         
         print(f'Port {all_ports[port]}: already connected.\n')
@@ -46,7 +45,9 @@ class Get():
                 maux = len(self.files)-1
 
                 # To run multiple file content's on the same time, they are in threads
+                connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
                 for file in self.files:
+                    
                     thread = th(connectionSocket, file, (i, maux))
                     thread.start()
                     if i == maux:
@@ -61,7 +62,7 @@ class Get():
                 connectionSocket.close()
                 # self.serverSocket.close()
 
-# Some port that could be use to run the server
+# Some port that c, 3001, 3002, 3003ould be use to run the server
 # But the server will take just one, the first one, to all the connections
 all_ports=[3000, 3001, 3002, 3003]
 port = 0
