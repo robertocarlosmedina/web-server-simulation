@@ -10,7 +10,6 @@ class th(Thread):
         self.control = control
 
     def run(self):
-        self.connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
         for i in range(0, len(self.outputdata)):
             self.connectionSocket.send(self.outputdata[i].encode())
         # self.connectionSocket.send("\r\n".encode())
@@ -46,6 +45,7 @@ class Get():
                 maux = len(self.files)-1
 
                 # To run multiple file content's on the same time, they are in threads
+                connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
                 for file in self.files:
                     thread = th(connectionSocket, file, (i, maux))
                     thread.start()
