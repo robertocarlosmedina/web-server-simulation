@@ -64,7 +64,7 @@ class Get():
 
 # Some port that could be use to run the server
 # But the server will take just one, the first one, to all the connections
-all_ports=[3000, 3001, 3002, 3003]
+all_ports=[6000, 3001, 3002, 3003]
 port = 0
 while True:
     stop = True
