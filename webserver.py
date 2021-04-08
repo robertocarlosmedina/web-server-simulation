@@ -1,10 +1,11 @@
 from socket import *
 from threading import Thread
+import base64
 
 # Class thread that is allow multiple file resquest at the same time
 class th(Thread):
     def __init__(self, connectionSocket, f, control):
-        Thread.__init__(self) 
+        Thread.__init__(self)
         self.outputdata = f.read()
         self.connectionSocket = connectionSocket
         self.control = control
@@ -12,10 +13,10 @@ class th(Thread):
     def run(self):
         for i in range(0, len(self.outputdata)):
             self.connectionSocket.send(self.outputdata[i].encode())
-        # self.connectionSocket.send("\r\n".encode())
+
         if self.control[0] == self.control[1]: # to control if this is the last thread to close all the socket connections
                                                # Allowing to prevent an error
-            self.connectionSocket.close() 
+            self.connectionSocket.close()
 
 class Get():
     def __init__(self, port):
@@ -26,7 +27,7 @@ class Get():
         self.serverSocket = socket(AF_INET, SOCK_STREAM)
         self.serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) ## I the port is in use this instruction will and
                                                                   # the process in the port to make it able to be use
-        self.serverSocket.bind(("localhost", self.serverPort))
+        self.serverSocket.bind(("192.168.1.81", self.serverPort))
         self.serverSocket.listen(1)
         
         print(f'Port {all_ports[port]}: already connected.\n')
@@ -35,7 +36,7 @@ class Get():
             
             connectionSocket, addr = self.serverSocket.accept()
             try:
-                message = connectionSocket.recv(1024).decode()
+                message = connectionSocket.recv(4096).decode()
                 print(message)
                 filename = message.split()[1]
                 f = open(filename[1:])
