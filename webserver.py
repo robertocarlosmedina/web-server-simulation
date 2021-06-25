@@ -22,12 +22,14 @@ class Get():
     def __init__(self, port):
         self.serverPort = port
         self.files = [] # array to store all the web request files
-
-    def run(self):
+        self.cleint = 0
         self.serverSocket = socket(AF_INET, SOCK_STREAM)
         self.serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1) ## I the port is in use this instruction will and
-                                                                  # the process in the port to make it able to be use
-        self.serverSocket.bind(("192.168.1.81", self.serverPort))
+                                                                  ## the process in the port to make it able to be use
+
+    def run(self):
+
+        self.serverSocket.bind(("192.168.1.50", self.serverPort))
         self.serverSocket.listen(1)
         
         print(f'Port {all_ports[port]}: already connected.\n')
@@ -37,6 +39,10 @@ class Get():
             connectionSocket, addr = self.serverSocket.accept()
             try:
                 message = connectionSocket.recv(4096).decode()
+                if message == "" :
+                    connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
+                    connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode())
+                    connectionSocket.close()
                 print(message)
                 filename = message.split()[1]
                 f = open(filename[1:])
@@ -48,6 +54,7 @@ class Get():
                 # To run multiple file content's on the same time, they are in threads
                 connectionSocket.send("HTTP/1.1 200 OK\r\n\r\n".encode())
                 for file in self.files:
+                    print(f"Respondendo client: {i}")
                     thread = th(connectionSocket, file, (i, maux))
                     thread.start()
                     if i == maux:
@@ -57,14 +64,15 @@ class Get():
                 # connectionSocket.send("HTTP/1.1 200 Ok\r\n".encode())
                 
             except IOError:
-                connectionSocket.send("HTTP/1.1 404 Not Found\r\n".encode())
+                connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode())
                 connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode())
                 connectionSocket.close()
                 # self.serverSocket.close()
+            self.cleint += 1
 
 # Some port that could be use to run the server
 # But the server will take just one, the first one, to all the connections
-all_ports=[3000, 3001, 3002, 3003]
+all_ports=[3000, 3001, 3002,3003]
 port = 0
 while True:
     stop = True

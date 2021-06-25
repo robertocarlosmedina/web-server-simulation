@@ -1,8 +1,8 @@
 from socket import *
 import requests
 
-serverName = 'localhost'
-serverPort = 80
+serverName = '192.168.1.50'
+serverPort = 3000
 
 def verifyCmd(cmd):
     cmd = cmd.split(" ")
@@ -25,25 +25,27 @@ print("Commands examples: ")
 print("Ex.1: whit response conde: ")
 print("TCP/Server -> localhost 3000 -h Facebook.html")
 print("Ex.2: whit html file display: ")
-print("TCP/Server -> localhost 3000 -t Facebook.html\n\n")
+print("TCP/Server -> localhost 3000 -b Facebook.html\n\n")
 
 print("____________________Web Server client___________________________\n")
 
 while True:
     # the cmd variable is to receive an string like this: localhost 3000 -h Facebook.html
-    cmd = input("TCP/Server -> ")
-    verfcmd = verifyCmd(cmd)
-    if verfcmd != None:
-        serverName = verfcmd[0]
-        serverPort = int(verfcmd[1])
-        opc = verfcmd[2]
-        site = verfcmd[3]
+    # cmd = input("TCP/Server -> ")    
+    while True:
+        cmd = input("TCP/Server -> ")
+        verfcmd = verifyCmd(cmd)
+        if verfcmd != None:
+            serverName = verfcmd[0]
+            serverPort = int(verfcmd[1])
+            opc = verfcmd[2]
+            site = verfcmd[3]
 
-        if opc == "-h":
-            try:
-                clientSocket = socket(AF_INET, SOCK_STREAM)
-                clientSocket.connect((serverName, serverPort))
-                clientSocket.send(f'''Get /{site} HTTP/1.1
+            if opc == "-h":
+                try:
+                    clientSocket = socket(AF_INET, SOCK_STREAM)
+                    clientSocket.connect((serverName, serverPort))
+                    clientSocket.send(f'''Get /{site} HTTP/1.1
 Host: localhost:{serverPort}
 User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0
 Accept: image/webp,*/*
@@ -52,18 +54,20 @@ Accept-Encoding: gzip, deflate
 Connection: keep-alive
 Referer: http://{serverName}:{serverPort}/{site}
 Upgrade-Insecure-Requests: {count}'''.encode())
-                modifiedSentence = clientSocket.recv(1024).decode()
-                print('From Server: ', modifiedSentence[:1000])
-                clientSocket.close()
-                count += 1
-            except OSError:
-                print("File not found")
-        elif opc == "-t":
-            res = requests.get(f'http://{serverName}:{serverPort}/{site}')
-            print(res.text[:1000])
-            print("\n")
+                    modifiedSentence = clientSocket.recv(1024).decode()
+                    print('From Server: ', modifiedSentence[:1000])
+                    clientSocket.close()
+                    count += 1
+                except OSError:
+                    print("File not found")
+            elif opc == "-b":
+                res = requests.get(f'http://{serverName}:{serverPort}/{site}')
+
+                print("Your Request: \n---------------------------------------------------------------\n")
+                print(res.text[:1000])
+                print("\n---------------------------------------------------------------\n")
+            else:
+                print("OSCommand: [Erro:01]")
         else:
             print("OSCommand: [Erro:01]")
-    else:
-        print("OSCommand: [Erro:01]")
         
